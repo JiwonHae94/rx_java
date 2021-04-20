@@ -28,6 +28,18 @@ class ObservableList<T> private constructor() : ObservableSource<T> {
         }
     }
 
+    internal fun removeAt(indx : Int) : T{
+        return synchronized(this){
+            return list.removeAt(indx)
+        }
+    }
+
+    internal fun pop() : T{
+        return synchronized(this){
+            return list.removeAt(list.size - 1)
+        }
+    }
+
     override fun subscribe(observer: Observer<in T>?){
         this.observer.subscribe(observer)
     }
@@ -45,7 +57,7 @@ class ObservableList<T> private constructor() : ObservableSource<T> {
     override fun toString(): String {
         val stringBuilder = StringBuilder("ObservableList")
         list.forEachIndexed { index, t ->
-            stringBuilder.append("$index : ", t.toString())
+            stringBuilder.append("\n$index : ", t.toString())
         }
         return stringBuilder.toString()
     }
